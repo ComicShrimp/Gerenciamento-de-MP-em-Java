@@ -16,6 +16,8 @@ public class TelaInicial extends javax.swing.JFrame {
      */
     public TelaInicial() {
         initComponents();
+        this.setTitle("Gerenciador de Memoria");
+        this.setLocationRelativeTo(null);
     }
 
     /**
