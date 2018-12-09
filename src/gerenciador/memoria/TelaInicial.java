@@ -17,7 +17,7 @@ public class TelaInicial extends javax.swing.JFrame {
      * Creates new form TelaInicial
      */
     
-    private ArrayList<Integer> mem = new ArrayList();
+    private ArrayList<InfoProcesso> mem = new ArrayList();
     private int TAM_MAX = 50;
     
     public TelaInicial() {
@@ -161,8 +161,6 @@ public class TelaInicial extends javax.swing.JFrame {
 
     private void btnAddProcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProcActionPerformed
         // TODO add your handling code here:
-        PegarInfos pg = new PegarInfos(TelaInicial.this);
-        pg.setVisible(true);
     }//GEN-LAST:event_btnAddProcActionPerformed
 
     private void btnMudaMemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMudaMemActionPerformed
@@ -171,6 +169,10 @@ public class TelaInicial extends javax.swing.JFrame {
         lblTamMem.setText(txtTamMem.getText());
     }//GEN-LAST:event_btnMudaMemActionPerformed
 
+    public void addProcessos(int id, int tam){
+        lblMemLivre.setText(Integer.toString(id));
+    }
+    
     /**
      * @param args the command line arguments
      */
