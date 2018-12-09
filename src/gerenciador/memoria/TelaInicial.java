@@ -178,10 +178,24 @@ public class TelaInicial extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAddProcActionPerformed
 
+    //Ainda não Está em completo funcionamento
     private void btnMudaMemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMudaMemActionPerformed
         // TODO add your handling code here:
-        TAM_MAX = Integer.parseInt(txtTamMem.getText());
-        lblTamMem.setText(txtTamMem.getText());
+        int novo = Integer.parseInt(txtTamMem.getText());
+        
+        int soma = 0;
+        for(InfoProcesso n : mem){
+            soma += n.getTamanho();
+        }
+        
+        if(novo < soma){
+            String msg = "Espaço não suficiente para processos ja alocados";
+            JOptionPane.showMessageDialog(rootPane, msg, "Algo deu Errado", JOptionPane.ERROR_MESSAGE);
+        }else{
+            TAM_MAX = novo;
+        }
+        
+        lblTamMem.setText(Integer.toString(TAM_MAX));
     }//GEN-LAST:event_btnMudaMemActionPerformed
 
     public void addProcessos(int id, int tam){
