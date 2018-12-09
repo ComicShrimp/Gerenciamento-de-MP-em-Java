@@ -5,6 +5,8 @@
  */
 package gerenciador.memoria;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author mario
@@ -14,9 +16,14 @@ public class PegarInfos extends javax.swing.JDialog {
     /**
      * Creates new form PegarInfos
      */
+    
+    InfoProcesso aux = new InfoProcesso();
+    private boolean cancelado = false;
+    
     public PegarInfos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -36,6 +43,7 @@ public class PegarInfos extends javax.swing.JDialog {
         btnConfirmar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Isira os Valores");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setText("ID :");
@@ -51,6 +59,11 @@ public class PegarInfos extends javax.swing.JDialog {
         });
 
         btnConfirmar.setText("Confirmar");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -96,9 +109,32 @@ public class PegarInfos extends javax.swing.JDialog {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
+        cancelado = true;
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        // TODO add your handling code here:
+        try{
+            int id = Integer.parseInt(txtID.getText());
+            int tam = Integer.parseInt(txtTamanho.getText());
+            aux.setID(id);
+            aux.setTamanho(tam);
+            dispose();
+        }catch(NumberFormatException e){
+            String msg = "Insira Valores";
+            JOptionPane.showMessageDialog(rootPane, msg, "Nenhum Valor Inserido", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    public InfoProcesso getValorProcesso(){
+        return aux;
+    }
+    
+    public boolean wasCanceled(){
+        return cancelado;
+    }
+    
     /**
      * @param args the command line arguments
      */

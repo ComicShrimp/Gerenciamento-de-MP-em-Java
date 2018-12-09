@@ -6,6 +6,7 @@
 package gerenciador.memoria;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -161,6 +162,16 @@ public class TelaInicial extends javax.swing.JFrame {
 
     private void btnAddProcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProcActionPerformed
         // TODO add your handling code here:
+        PegarInfos dlg = new PegarInfos(this, rootPaneCheckingEnabled);
+        dlg.setVisible(true);
+        InfoProcesso aux = dlg.getValorProcesso();
+        
+        if(!(aux.getID() < 1 || aux.getTamanho() <= 0)){
+            lblMemLivre.setText(Integer.toString(aux.getID()));
+        }else if(!dlg.wasCanceled()){
+            String msg = "Valores Não Permitidos";
+            JOptionPane.showMessageDialog(rootPane, msg, "Valores negativos Inseridos", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAddProcActionPerformed
 
     private void btnMudaMemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMudaMemActionPerformed
