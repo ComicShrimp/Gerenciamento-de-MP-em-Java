@@ -35,12 +35,16 @@ public class PegarInfos extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        rdGrupoTipo = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         txtID = new javax.swing.JTextField();
         txtTamanho = new javax.swing.JTextField();
         btnConfirmar = new javax.swing.JButton();
+        rdFirst = new javax.swing.JRadioButton();
+        rdBetter = new javax.swing.JRadioButton();
+        rdWorst = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Isira os Valores");
@@ -65,6 +69,16 @@ public class PegarInfos extends javax.swing.JDialog {
             }
         });
 
+        rdGrupoTipo.add(rdFirst);
+        rdFirst.setSelected(true);
+        rdFirst.setText("First Fit");
+
+        rdGrupoTipo.add(rdBetter);
+        rdBetter.setText("Better Fit");
+
+        rdGrupoTipo.add(rdWorst);
+        rdWorst.setText("Worst First");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -85,6 +99,13 @@ public class PegarInfos extends javax.swing.JDialog {
                     .addComponent(txtID)
                     .addComponent(txtTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdFirst)
+                    .addComponent(rdBetter)
+                    .addComponent(rdWorst))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,11 +118,17 @@ public class PegarInfos extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rdFirst)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdBetter)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdWorst)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnConfirmar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -140,6 +167,19 @@ public class PegarInfos extends javax.swing.JDialog {
     
     public boolean wasCanceled(){
         return cancelado;
+    }
+    
+    public int getTipo(){
+        
+        if(rdFirst.isSelected()){
+            return 0;
+        }else if(rdBetter.isSelected()){
+            return 1;
+        }else if(rdWorst.isSelected()){
+            return 2;
+        }else{
+            return 0;
+        }
     }
     
     /**
@@ -189,6 +229,10 @@ public class PegarInfos extends javax.swing.JDialog {
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JRadioButton rdBetter;
+    private javax.swing.JRadioButton rdFirst;
+    private javax.swing.ButtonGroup rdGrupoTipo;
+    private javax.swing.JRadioButton rdWorst;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtTamanho;
     // End of variables declaration//GEN-END:variables

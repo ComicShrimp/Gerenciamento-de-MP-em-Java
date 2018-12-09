@@ -169,9 +169,10 @@ public class TelaInicial extends javax.swing.JFrame {
         PegarInfos dlg = new PegarInfos(this, rootPaneCheckingEnabled);
         dlg.setVisible(true);
         InfoProcesso aux = dlg.getValorProcesso();
+        int tipo = dlg.getTipo();
         
         if(!(aux.getID() < 1 || aux.getTamanho() < 1)){
-            addProcessos(aux);
+            addProcessos(aux, tipo);
         }else if(!dlg.wasCanceled()){
             String msg = "Alguma coisa deu errado, tente denovo !!";
             JOptionPane.showMessageDialog(rootPane, msg, "Algo Aconteceu", JOptionPane.ERROR_MESSAGE);
@@ -198,7 +199,7 @@ public class TelaInicial extends javax.swing.JFrame {
         lblTamMem.setText(Integer.toString(TAM_MAX));
     }//GEN-LAST:event_btnMudaMemActionPerformed
 
-    public void addProcessos(int id, int tam){
+    public void addProcessos(int id, int tam, int tipo){
         
         if(!(tam > TAM_LIVRE)){
             mem.add(new InfoProcesso(id, tam));
@@ -210,7 +211,7 @@ public class TelaInicial extends javax.swing.JFrame {
         
     }
     
-    public void addProcessos(InfoProcesso proc){
+    public void addProcessos(InfoProcesso proc, int tipo){
         
         if(!(proc.getTamanho() > TAM_LIVRE)){
             mem.add(new InfoProcesso(proc.getID(), proc.getTamanho()));
