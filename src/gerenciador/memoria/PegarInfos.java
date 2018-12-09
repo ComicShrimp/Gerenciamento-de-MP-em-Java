@@ -120,7 +120,14 @@ public class PegarInfos extends javax.swing.JDialog {
             int tam = Integer.parseInt(txtTamanho.getText());
             aux.setID(id);
             aux.setTamanho(tam);
-            dispose();
+            
+            if(!(aux.getID() < 1 || aux.getTamanho() < 1)){
+                dispose();
+            }else{
+                String msg = "ID e Tam. devem ser maires que 0.";
+                JOptionPane.showMessageDialog(rootPane, msg, "Valores Invalidos", JOptionPane.ERROR_MESSAGE); 
+            }
+            
         }catch(NumberFormatException e){
             String msg = "Insira Valores";
             JOptionPane.showMessageDialog(rootPane, msg, "Nenhum Valor Inserido", JOptionPane.ERROR_MESSAGE);

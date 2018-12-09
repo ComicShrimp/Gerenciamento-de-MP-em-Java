@@ -20,6 +20,7 @@ public class TelaInicial extends javax.swing.JFrame {
     
     private ArrayList<InfoProcesso> mem = new ArrayList();
     private int TAM_MAX = 50;
+    private int TAM_LIVRE = 50;
     
     public TelaInicial() {
         initComponents();
@@ -27,6 +28,9 @@ public class TelaInicial extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         TableMemoria.setFillsViewportHeight(true);
         txtTamMem.setText(Integer.toString(TAM_MAX));
+        
+        //Tudo com ID = 0 será espaço livre
+        mem.add(new InfoProcesso(0, TAM_MAX));
     }
 
     /**
@@ -166,11 +170,11 @@ public class TelaInicial extends javax.swing.JFrame {
         dlg.setVisible(true);
         InfoProcesso aux = dlg.getValorProcesso();
         
-        if(!(aux.getID() < 1 || aux.getTamanho() <= 0)){
-            lblMemLivre.setText(Integer.toString(aux.getID()));
+        if(!(aux.getID() < 1 || aux.getTamanho() < 1)){
+            addProcessos(aux);
         }else if(!dlg.wasCanceled()){
-            String msg = "Valores Não Permitidos";
-            JOptionPane.showMessageDialog(rootPane, msg, "Valores negativos Inseridos", JOptionPane.ERROR_MESSAGE);
+            String msg = "Alguma coisa deu errado, tente denovo !!";
+            JOptionPane.showMessageDialog(rootPane, msg, "Algo Aconteceu", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAddProcActionPerformed
 
@@ -181,7 +185,27 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMudaMemActionPerformed
 
     public void addProcessos(int id, int tam){
-        lblMemLivre.setText(Integer.toString(id));
+        
+        if(!(tam > TAM_LIVRE)){
+            mem.add(new InfoProcesso(id, tam));
+            lblMemLivre.setText(Integer.toString(id));
+        }else{
+            String msg = "Sem Espaço Para o Processo";
+            JOptionPane.showMessageDialog(rootPane, msg, "Não foi possivel alocar", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }
+    
+    public void addProcessos(InfoProcesso proc){
+        
+        if(!(proc.getTamanho() > TAM_LIVRE)){
+            mem.add(new InfoProcesso(proc.getID(), proc.getTamanho()));
+            lblMemLivre.setText(Integer.toString(proc.getID()));
+        }else{
+            String msg = "Sem Espaço Para o Processo";
+            JOptionPane.showMessageDialog(rootPane, msg, "Não foi possivel alocar", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
     
     /**
