@@ -7,6 +7,7 @@ package gerenciador.memoria;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,9 +19,11 @@ public class TelaInicial extends javax.swing.JFrame {
      * Creates new form TelaInicial
      */
     
+    //Ultimo elemento do arraylist deve ser -1
     private ArrayList<InfoProcesso> mem = new ArrayList();
     private int TAM_MAX = 50;
     private int TAM_LIVRE = 50;
+    private DefaultTableModel modelo;
     
     public TelaInicial() {
         initComponents();
@@ -28,9 +31,11 @@ public class TelaInicial extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         TableMemoria.setFillsViewportHeight(true);
         txtTamMem.setText(Integer.toString(TAM_MAX));
+        modelo = (DefaultTableModel) TableMemoria.getModel();
         
         //Tudo com ID = 0 será espaço livre
         mem.add(new InfoProcesso(0, TAM_MAX));
+        mem.add(new InfoProcesso(-1, -1));
     }
 
     /**
@@ -58,7 +63,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
         TableMemoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+
             },
             new String [] {
                 "ID", "Tamanho"
@@ -204,6 +209,7 @@ public class TelaInicial extends javax.swing.JFrame {
         if(!(tam > TAM_LIVRE)){
             mem.add(new InfoProcesso(id, tam));
             lblMemLivre.setText(Integer.toString(id));
+            atualizarTabela();
         }else{
             String msg = "Sem Espaço Para o Processo";
             JOptionPane.showMessageDialog(rootPane, msg, "Não foi possivel alocar", JOptionPane.ERROR_MESSAGE);
@@ -216,9 +222,27 @@ public class TelaInicial extends javax.swing.JFrame {
         if(!(proc.getTamanho() > TAM_LIVRE)){
             mem.add(new InfoProcesso(proc.getID(), proc.getTamanho()));
             lblMemLivre.setText(Integer.toString(proc.getID()));
+            modelo.addRow(new Object[]{proc.getID(), proc.getTamanho()});
         }else{
             String msg = "Sem Espaço Para o Processo";
             JOptionPane.showMessageDialog(rootPane, msg, "Não foi possivel alocar", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }
+    
+    public void atualizarTabela(){
+        
+        int i = 0;
+        for(i = 0;i < modelo.getRowCount();i++){
+            modelo.removeRow(i);
+        }
+        
+        for(InfoProcesso aux : mem){
+            if(aux.getID() != -1){
+                modelo.addRow(new Object[]{aux.getID(), aux.getTamanho()});
+            }else{
+                break;
+            }
         }
         
     }
