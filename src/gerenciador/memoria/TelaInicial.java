@@ -208,7 +208,6 @@ public class TelaInicial extends javax.swing.JFrame {
         
         if(!(tam > TAM_LIVRE)){
             mem.add(new InfoProcesso(id, tam));
-            lblMemLivre.setText(Integer.toString(id));
             atualizarTabela();
         }else{
             String msg = "Sem Espaço Para o Processo";
@@ -219,10 +218,9 @@ public class TelaInicial extends javax.swing.JFrame {
     
     public void addProcessos(InfoProcesso proc, int tipo){
         
-        if(!(proc.getTamanho() > TAM_LIVRE)){
-            mem.add(new InfoProcesso(proc.getID(), proc.getTamanho()));
-            lblMemLivre.setText(Integer.toString(proc.getID()));
-            modelo.addRow(new Object[]{proc.getID(), proc.getTamanho()});
+        if(proc.getTamanho() <= TAM_LIVRE){
+            mem.add(0, proc);
+            atualizarTabela();
         }else{
             String msg = "Sem Espaço Para o Processo";
             JOptionPane.showMessageDialog(rootPane, msg, "Não foi possivel alocar", JOptionPane.ERROR_MESSAGE);
@@ -232,6 +230,8 @@ public class TelaInicial extends javax.swing.JFrame {
     
     public void atualizarTabela(){
         
+        int livre = 0;
+        
         int i = 0;
         for(i = 0;i < modelo.getRowCount();i++){
             modelo.removeRow(i);
@@ -240,11 +240,14 @@ public class TelaInicial extends javax.swing.JFrame {
         for(InfoProcesso aux : mem){
             if(aux.getID() != -1){
                 modelo.addRow(new Object[]{aux.getID(), aux.getTamanho()});
+                if(aux.getID() == 0){
+                    livre += aux.getTamanho();
+                }
             }else{
                 break;
             }
         }
-        
+        lblMemLivre.setText(Integer.toString(livre));
     }
     
     /**
