@@ -20,7 +20,7 @@ public class TelaInicial extends javax.swing.JFrame {
      */
     
     //Ultimo elemento do arraylist deve ser -1
-    private ArrayList<InfoProcesso> mem = new ArrayList();
+    private ArrayList<InfoProcesso> mem = new ArrayList<InfoProcesso>();
     private int TAM_MAX = 50;
     private int TAM_LIVRE = 50;
     private DefaultTableModel modelo;
@@ -36,6 +36,7 @@ public class TelaInicial extends javax.swing.JFrame {
         //Tudo com ID = 0 será espaço livre
         mem.add(new InfoProcesso(0, TAM_MAX));
         mem.add(new InfoProcesso(-1, -1));
+        atualizarTabela();
     }
 
     /**
@@ -191,7 +192,9 @@ public class TelaInicial extends javax.swing.JFrame {
         
         int soma = 0;
         for(InfoProcesso n : mem){
-            soma += n.getTamanho();
+            if(n.getID() != 0){
+                soma += n.getTamanho();
+            }
         }
         
         if(novo < soma){
@@ -203,28 +206,20 @@ public class TelaInicial extends javax.swing.JFrame {
         
         lblTamMem.setText(Integer.toString(TAM_MAX));
     }//GEN-LAST:event_btnMudaMemActionPerformed
-
-    public void addProcessos(int id, int tam, int tipo){
-        
-        if(!(tam > TAM_LIVRE)){
-            mem.add(new InfoProcesso(id, tam));
-            atualizarTabela();
-        }else{
-            String msg = "Sem Espaço Para o Processo";
-            JOptionPane.showMessageDialog(rootPane, msg, "Não foi possivel alocar", JOptionPane.ERROR_MESSAGE);
-        }
-        
-    }
     
     public void addProcessos(InfoProcesso proc, int tipo){
         
-        if(proc.getTamanho() <= TAM_LIVRE){
-            mem.add(0, proc);
-            atualizarTabela();
+        int index = getIndex(tipo, proc.getTamanho());
+        
+        if(index != -1){
+            mem.get(index).setTamanho(mem.get(index).getTamanho() - proc.getTamanho());
+            mem.add(index, proc);
         }else{
             String msg = "Sem Espaço Para o Processo";
             JOptionPane.showMessageDialog(rootPane, msg, "Não foi possivel alocar", JOptionPane.ERROR_MESSAGE);
         }
+        
+        atualizarTabela();
         
     }
     
@@ -232,10 +227,7 @@ public class TelaInicial extends javax.swing.JFrame {
         
         int livre = 0;
         
-        int i = 0;
-        for(i = 0;i < modelo.getRowCount();i++){
-            modelo.removeRow(i);
-        }
+        modelo.setRowCount(0);
         
         for(InfoProcesso aux : mem){
             if(aux.getID() != -1){
@@ -248,6 +240,56 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         }
         lblMemLivre.setText(Integer.toString(livre));
+        System.out.println(mem.get(0).getID());
+    }
+    
+    private int getIndex(int tipo, int tam){
+        switch(tipo){
+            case 0:{
+                for(InfoProcesso t : mem){
+                    if((t.getID() == 0) && (t.getTamanho() >= tam)){
+                        return mem.indexOf(t);
+                    }
+                }
+                return -1;
+            }
+            
+            case 1:{
+                InfoProcesso menor = new InfoProcesso(-1, TAM_MAX);
+                for(InfoProcesso t : mem){
+                    if((t.getID() == 0) && (t.getTamanho() >= tam) && (t.getTamanho() < menor.getTamanho())){
+                        menor = t;
+                    }
+                }
+                
+                if(menor.getID() != -1){
+                    return mem.indexOf(menor);
+                }else{
+                    return -1;
+                }
+            }
+            
+            case 2:{
+                InfoProcesso maior = new InfoProcesso(-1, TAM_MAX);
+                for(InfoProcesso t : mem){
+                    if((t.getID() == 0) && (t.getTamanho() >= tam) && (t.getTamanho() > maior.getTamanho())){
+                        maior = t;
+                    }
+                }
+                
+                if(maior.getID() != -1){
+                    return mem.indexOf(maior);
+                }else{
+                    return -1;
+                }
+            }
+            
+            default:{
+                String msg = "Algo deu errado";
+                JOptionPane.showMessageDialog(rootPane, msg, "Desculpa", JOptionPane.ERROR_MESSAGE);
+                return -1;
+            }
+        }
     }
     
     /**
