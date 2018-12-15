@@ -120,6 +120,11 @@ public class TelaInicial extends javax.swing.JFrame {
         btnRemoveProc.setText("Remove Processo");
 
         btnRemoveSelect.setText("Remove Selec.");
+        btnRemoveSelect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveSelectActionPerformed(evt);
+            }
+        });
 
         btnAltProc.setText("Alterar Processo");
 
@@ -226,6 +231,29 @@ public class TelaInicial extends javax.swing.JFrame {
         
         lblTamMem.setText(Integer.toString(TAM_MAX));
     }//GEN-LAST:event_btnMudaMemActionPerformed
+
+    private void btnRemoveSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveSelectActionPerformed
+        // TODO add your handling code here:
+        int row = TableMemoria.getSelectedRow();
+        
+        if(row != -1){
+            int id = (Integer) modelo.getValueAt(row, 0);
+            
+            for(InfoProcesso aux : mem){
+                if(aux.getID() == id){
+                    aux.setID(0);
+                    break;
+                }
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Nenhum processo selecionado",
+                    "Não Foi Possivel Remover", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        atualizarTabela();
+        
+    }//GEN-LAST:event_btnRemoveSelectActionPerformed
     
     public void addProcessos(InfoProcesso proc, int tipo){
         
@@ -298,7 +326,7 @@ public class TelaInicial extends javax.swing.JFrame {
             }
             
             case 2:{
-                InfoProcesso maior = new InfoProcesso(-1, TAM_MAX);
+                InfoProcesso maior = new InfoProcesso(-1, 0);
                 for(InfoProcesso t : mem){
                     if((t.getID() == 0) && (t.getTamanho() >= tam) && (t.getTamanho() > maior.getTamanho())){
                         maior = t;
