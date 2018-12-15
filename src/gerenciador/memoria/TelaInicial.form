@@ -26,7 +26,6 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnAddProc" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -35,6 +34,12 @@
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblMemLivre" min="-2" pref="56" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="btnAltProc" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnRemoveSelect" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnAddProc" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnRemoveProc" alignment="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
@@ -70,6 +75,12 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="btnAddProc" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnRemoveProc" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnRemoveSelect" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnAltProc" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" pref="299" max="32767" attributes="0"/>
@@ -187,6 +198,21 @@
           <Font name="Dialog" size="14" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="50"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnRemoveProc">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Remove Processo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnRemoveSelect">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Remove Selec."/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnAltProc">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Alterar Processo"/>
       </Properties>
     </Component>
   </SubComponents>

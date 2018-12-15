@@ -60,6 +60,9 @@ public class TelaInicial extends javax.swing.JFrame {
         lblTamMem = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lblMemLivre = new javax.swing.JLabel();
+        btnRemoveProc = new javax.swing.JButton();
+        btnRemoveSelect = new javax.swing.JButton();
+        btnAltProc = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,6 +117,12 @@ public class TelaInicial extends javax.swing.JFrame {
         lblMemLivre.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblMemLivre.setText("50");
 
+        btnRemoveProc.setText("Remove Processo");
+
+        btnRemoveSelect.setText("Remove Selec.");
+
+        btnAltProc.setText("Alterar Processo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,7 +130,6 @@ public class TelaInicial extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAddProc)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -129,7 +137,12 @@ public class TelaInicial extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblMemLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblMemLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(btnAltProc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRemoveSelect, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddProc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRemoveProc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(174, 174, 174)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -157,6 +170,12 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAddProc)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRemoveProc)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRemoveSelect)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAltProc)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -212,9 +231,18 @@ public class TelaInicial extends javax.swing.JFrame {
         
         int index = getIndex(tipo, proc.getTamanho());
         
-        if(index != -1){
+        for(InfoProcesso aux : mem){
+            if(aux.getID() == proc.getID()){
+                index = -2;
+            }
+        }
+        
+        if(index > -1){
             mem.get(index).setTamanho(mem.get(index).getTamanho() - proc.getTamanho());
             mem.add(index, proc);
+        }else if(index == -2){
+            String msg2 = "Processo com o mesmo ID já existe";
+            JOptionPane.showMessageDialog(rootPane, msg2, "Não foi possivel alocar", JOptionPane.ERROR_MESSAGE);
         }else{
             String msg = "Sem Espaço Para o Processo";
             JOptionPane.showMessageDialog(rootPane, msg, "Não foi possivel alocar", JOptionPane.ERROR_MESSAGE);
@@ -241,7 +269,6 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         }
         lblMemLivre.setText(Integer.toString(livre));
-        System.out.println(mem.get(0).getID());
     }
     
     private int getIndex(int tipo, int tam){
@@ -331,7 +358,10 @@ public class TelaInicial extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableMemoria;
     private javax.swing.JButton btnAddProc;
+    private javax.swing.JButton btnAltProc;
     private javax.swing.JButton btnMudaMem;
+    private javax.swing.JButton btnRemoveProc;
+    private javax.swing.JButton btnRemoveSelect;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
