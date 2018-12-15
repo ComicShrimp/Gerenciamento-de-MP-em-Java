@@ -24,6 +24,7 @@ public class TelaInicial extends javax.swing.JFrame {
     private int TAM_MAX = 50;
     private int TAM_LIVRE = 50;
     private DefaultTableModel modelo;
+    private InfoProcesso fim = new InfoProcesso(-1, -1);
     
     public TelaInicial() {
         initComponents();
@@ -35,7 +36,7 @@ public class TelaInicial extends javax.swing.JFrame {
         
         //Tudo com ID = 0 será espaço livre
         mem.add(new InfoProcesso(0, TAM_MAX));
-        mem.add(new InfoProcesso(-1, -1));
+        mem.add(fim);
         atualizarTabela();
     }
 
