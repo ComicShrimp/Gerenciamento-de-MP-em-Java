@@ -60,7 +60,6 @@ public class TelaInicial extends javax.swing.JFrame {
         lblTamMem = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lblMemLivre = new javax.swing.JLabel();
-        btnRemoveProc = new javax.swing.JButton();
         btnRemoveSelect = new javax.swing.JButton();
         btnAltProc = new javax.swing.JButton();
 
@@ -117,8 +116,6 @@ public class TelaInicial extends javax.swing.JFrame {
         lblMemLivre.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblMemLivre.setText("50");
 
-        btnRemoveProc.setText("Remove Processo");
-
         btnRemoveSelect.setText("Remove Selec.");
         btnRemoveSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,8 +143,7 @@ public class TelaInicial extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(btnAltProc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRemoveSelect, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAddProc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRemoveProc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnAddProc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(174, 174, 174)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -175,8 +171,6 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAddProc)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRemoveProc)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnRemoveSelect)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -214,21 +208,36 @@ public class TelaInicial extends javax.swing.JFrame {
     private void btnMudaMemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMudaMemActionPerformed
         // TODO add your handling code here:
         int novo = Integer.parseInt(txtTamMem.getText());
-        
         int soma = 0;
-        for(InfoProcesso n : mem){
-            if(n.getID() != 0){
-                soma += n.getTamanho();
+        
+        if(novo < TAM_MAX && novo > 0){
+            if(Integer.parseInt(lblMemLivre.getText()) >= TAM_MAX - novo){
+                int tirar = TAM_MAX - novo;
+                for(int i = mem.size() - 1;i >= 0 && tirar > 0;i--){
+                    if(mem.get(i).getID() == 0){
+                        for(int j = mem.get(i).getTamanho();mem.get(i).getTamanho() > 0 && tirar > 0;j--){
+                            tirar--;
+                            mem.get(i).setTamanho(mem.get(i).getTamanho() - 1);
+                        }
+                    }
+                    
+                    if(mem.get(i).getTamanho() == 0){
+                        mem.remove(mem.get(i));
+                    }
+                }
+                
+                TAM_MAX = novo;
+                
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Não foi possivel diminuir a Memoria.", "Algo deu Errado", JOptionPane.ERROR_MESSAGE);
             }
-        }
-        
-        if(novo < soma){
-            String msg = "Espaço não suficiente para processos ja alocados";
-            JOptionPane.showMessageDialog(rootPane, msg, "Algo deu Errado", JOptionPane.ERROR_MESSAGE);
         }else{
-            TAM_MAX = novo;
+            mem.add(mem.indexOf(fim), new InfoProcesso(0, novo - TAM_MAX));
+            TAM_MAX += novo - TAM_MAX;
         }
         
+        atualizarTabela();
+        juntaVazio();
         lblTamMem.setText(Integer.toString(TAM_MAX));
     }//GEN-LAST:event_btnMudaMemActionPerformed
 
@@ -284,7 +293,8 @@ public class TelaInicial extends javax.swing.JFrame {
     public void juntaVazio(){
         
         for(int i = 0;i < mem.size();i++){
-            if(mem.get(i).getID() == 0){
+            if(!(i - 1 == -1) && !(i + 1 == mem.size())){
+                if(mem.get(i).getID() == 0){
                 if(mem.get(i + 1).getID() == 0){
                     mem.get(i).setTamanho(mem.get(i).getTamanho() + mem.get(i + 1).getTamanho());
                     mem.remove(i + 1);
@@ -292,6 +302,7 @@ public class TelaInicial extends javax.swing.JFrame {
                     mem.get(i).setTamanho(mem.get(i).getTamanho() + mem.get(i - 1).getTamanho());
                     mem.remove(i - 1);
                 }
+            }
             }
         }
         
@@ -305,9 +316,13 @@ public class TelaInicial extends javax.swing.JFrame {
         
         for(InfoProcesso aux : mem){
             if(aux.getID() != -1){
-                modelo.addRow(new Object[]{aux.getID(), aux.getTamanho()});
-                if(aux.getID() == 0){
-                    livre += aux.getTamanho();
+                if(aux.getTamanho() != 0){
+                    modelo.addRow(new Object[]{aux.getID(), aux.getTamanho()});
+                    if(aux.getID() == 0){
+                        livre += aux.getTamanho();
+                    }
+                }else{
+                    mem.remove(aux);
                 }
             }else{
                 break;
@@ -405,7 +420,6 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JButton btnAddProc;
     private javax.swing.JButton btnAltProc;
     private javax.swing.JButton btnMudaMem;
-    private javax.swing.JButton btnRemoveProc;
     private javax.swing.JButton btnRemoveSelect;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
