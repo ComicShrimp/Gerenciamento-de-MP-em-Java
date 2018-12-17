@@ -287,16 +287,18 @@ public class TelaInicial extends javax.swing.JFrame {
     public void juntaVazio(){
         
         for(int i = 0;i < mem.size();i++){
-            if(!(i - 1 == -1) || !(i + 1 == mem.size())){
+            if(!(i - 1 == -1)){
                 if(mem.get(i).getID() == 0){
-                    if(mem.get(i + 1).getID() == 0){
-                        mem.get(i).setTamanho(mem.get(i).getTamanho() + mem.get(i + 1).getTamanho());
-                        mem.remove(i + 1);
-                    }else if(mem.get(i - 1).getID() == 0){
+                    if(mem.get(i - 1).getID() == 0){
                         mem.get(i).setTamanho(mem.get(i).getTamanho() + mem.get(i - 1).getTamanho());
                         mem.remove(i - 1);
                     }
                 }
+            }else if(!(i + 1 == mem.size())){
+                if(mem.get(i + 1).getID() == 0){
+                        mem.get(i).setTamanho(mem.get(i).getTamanho() + mem.get(i + 1).getTamanho());
+                        mem.remove(i + 1);
+                    }
             }
         }
         
