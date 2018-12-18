@@ -301,10 +301,12 @@ public class TelaInicial extends javax.swing.JFrame {
                     }
                 }
             }else if(!(i + 1 == mem.size())){
-                if(mem.get(i + 1).getID() == 0){
+                if(mem.get(i).getID() == 0){
+                    if(mem.get(i + 1).getID() == 0){
                         mem.get(i).setTamanho(mem.get(i).getTamanho() + mem.get(i + 1).getTamanho());
                         mem.remove(i + 1);
                     }
+                }
             }
         }
         
